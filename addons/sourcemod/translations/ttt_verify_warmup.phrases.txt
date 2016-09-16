@@ -1,0 +1,45 @@
+"Phrases"
+{
+	"Tag"
+	{
+		"en"	"[{green}Verify-Voice{default}]"
+	}
+	"Not allowed during the round"
+	{
+		"en"	"This is not allowed during the Round."
+	}
+	"The verify channel has been enabled"
+	{
+		"en"	"The verify channel has been activated."
+	}
+	"A client joined the channel"
+	{
+		"format" "{1:N}"
+		"en"	"{1} joined the channel"
+	}
+	"You joined the channel"
+	{
+		"en"	"You joined the channel."
+	}
+	"The channel is not active"
+	{
+		"en"	"The channel is not active yet."
+	}
+	"A client left the channel"
+	{
+		"format" "{1:N}"
+		"en"	"{1} left the channel"
+	}
+	"You left the channel"
+	{
+		"en"	"You left the channel."
+	}
+	"You are not in the channel"
+	{
+		"en"	"You are not in the channel."
+	}
+	"The channel has been disabled"
+	{
+		"en"	"The channel has been disabled due to the round starting."
+	}
+}
