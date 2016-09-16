@@ -14,7 +14,7 @@
 	}
 	"A client joined the channel"
 	{
-		"format" "{1:N}"
+		"#format" "{1:N}"
 		"en"	"{1} joined the channel"
 	}
 	"You joined the channel"
@@ -27,7 +27,7 @@
 	}
 	"A client left the channel"
 	{
-		"format" "{1:N}"
+		"#format" "{1:N}"
 		"en"	"{1} left the channel"
 	}
 	"You left the channel"

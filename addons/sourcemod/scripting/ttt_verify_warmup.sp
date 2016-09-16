@@ -28,8 +28,8 @@ bool g_bJoinedChannel[MAXPLAYERS + 1];
 public void OnPluginStart()
 {
 	RegAdminCmd("sm_voice", Command_Voice, ADMFLAG_GENERIC);
-	RegAdminCmd("sm_leave", Command_Join, ADMFLAG_GENERIC);
-	RegAdminCmd("sm_join", Command_Leave, ADMFLAG_GENERIC);
+	RegAdminCmd("sm_leave", Command_Leave, ADMFLAG_GENERIC);
+	RegAdminCmd("sm_join", Command_Join, ADMFLAG_GENERIC);
 	
 	LoadTranslations("ttt_verify_warmup.phrases");
 }
@@ -42,7 +42,7 @@ public Action Command_Voice(int client, int args)
 		return Plugin_Handled;
 	}
 	
-	if(g_bVerifyVoice)
+	if(!g_bVerifyVoice)
 	{
 		EnableVerifyChannel();
 		AddClientToChannel(client);
@@ -70,7 +70,7 @@ void EnableVerifyChannel()
 	CPrintToChatAll("%t %t", "Tag", "The verify channel has been enabled");
 	for (int i = 1; i <= MaxClients; i++)
 	{
-		if(!VF_IsClientVerified(i))
+		if(IsClientValid(i) && !VF_IsClientVerified(i))
 			AddClientToChannel(i);
 	}
 }
@@ -81,14 +81,17 @@ void AddClientToChannel(int client)
 	{
 		for (int i = 1; i <= MaxClients; i++)
 		{
-			if(IsClientValid(i) && g_bJoinedChannel[i])
+			if(IsClientValid(i))
 			{
-				SetListenOverride(client, i, Listen_Yes);
-				SetListenOverride(i, client, Listen_Yes);
-				CPrintToChat(i, "%t %t", "Tag", "A client joined the channel");
-			}else{
-				SetListenOverride(client, i, Listen_No);
-				SetListenOverride(i, client, Listen_No);
+				if(g_bJoinedChannel[i])
+				{
+					SetListenOverride(client, i, Listen_Yes);
+					SetListenOverride(i, client, Listen_Yes);
+					CPrintToChat(i, "%t %t", "Tag", "A client joined the channel", client);
+				}else{
+					SetListenOverride(client, i, Listen_No);
+					SetListenOverride(i, client, Listen_No);
+				}
 			}
 		}
 		g_bJoinedChannel[client] = true;
@@ -104,14 +107,17 @@ void RemoveClientFromChannel(int client)
 	{
 		for (int i = 1; i <= MaxClients; i++)
 		{
-			if(IsClientValid(i) && g_bJoinedChannel[i])
+			if(IsClientValid(i))
 			{
-				SetListenOverride(client, i, Listen_No);
-				SetListenOverride(i, client, Listen_No);
-				CPrintToChat(i, "%t %t", "Tag", "A client left the channel");
-			}else{
-				SetListenOverride(client, i, Listen_Yes);
-				SetListenOverride(i, client, Listen_Yes);
+				if(g_bJoinedChannel[i])
+				{
+					SetListenOverride(client, i, Listen_No);
+					SetListenOverride(i, client, Listen_No);
+					CPrintToChat(i, "%t %t", "Tag", "A client left the channel", client);
+				}else{
+					SetListenOverride(client, i, Listen_Yes);
+					SetListenOverride(i, client, Listen_Yes);
+				}
 			}
 		}
 		CPrintToChat(client, "%t %t", "Tag", "You left the channel");
