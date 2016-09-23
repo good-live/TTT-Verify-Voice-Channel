@@ -157,7 +157,7 @@ public void TTT_OnRoundStart(int is, int t, int d)
 
 stock bool IsClientValid(int client)
 {
-	if (0 < client <= MaxClients && IsClientConnected(client))
+	if (0 < client <= MaxClients && IsClientInGame(client))
 		return true;
 	return false;
 }
