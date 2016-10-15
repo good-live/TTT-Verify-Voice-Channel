@@ -148,10 +148,34 @@ public void TTT_OnRoundStart(int is, int t, int d)
 	g_bVerifyVoice = false;
 	for (int i = 1; i <= MaxClients; i++)
 	{
-		if(IsClientValid(i))
+		if(IsClientValid(i) && g_bJoinedChannel[i]){
+	
 			CPrintToChat(i, "%t %t", "Tag", "The channel has been disabled");
-		
-		g_bJoinedChannel[i] = false;
+			g_bJoinedChannel[i] = false;
+			
+			if(!IsPlayerAlive(i))
+			{
+				for (int j = 1; j <= MaxClients; j++)
+				{
+					if(IsPlayerAlive(j))
+					{
+						SetListenOverride(j, i, Listen_No);
+						SetListenOverride(i, j, Listen_Yes);
+					}else{
+						SetListenOverride(j, i, Listen_Yes);
+						SetListenOverride(i, j, Listen_Yes);
+					}
+				}
+			}
+			else
+			{
+				for (int j = 1; j <= MaxClients; j++)
+				{
+					SetListenOverride(i, j, Listen_Yes);
+					SetListenOverride(j, i, Listen_Yes);
+				}
+			}
+		}	
 	}
 }
 
