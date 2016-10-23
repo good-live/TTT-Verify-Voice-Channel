@@ -157,13 +157,16 @@ public void TTT_OnRoundStart(int is, int t, int d)
 			{
 				for (int j = 1; j <= MaxClients; j++)
 				{
-					if(IsPlayerAlive(j))
+					if(IsClientValid(j))
 					{
-						SetListenOverride(j, i, Listen_No);
-						SetListenOverride(i, j, Listen_Yes);
-					}else{
-						SetListenOverride(j, i, Listen_Yes);
-						SetListenOverride(i, j, Listen_Yes);
+						if(IsPlayerAlive(j))
+						{
+							SetListenOverride(j, i, Listen_No);
+							SetListenOverride(i, j, Listen_Yes);
+						}else{
+							SetListenOverride(j, i, Listen_Yes);
+							SetListenOverride(i, j, Listen_Yes);
+						}
 					}
 				}
 			}
@@ -171,8 +174,11 @@ public void TTT_OnRoundStart(int is, int t, int d)
 			{
 				for (int j = 1; j <= MaxClients; j++)
 				{
-					SetListenOverride(i, j, Listen_Yes);
-					SetListenOverride(j, i, Listen_Yes);
+					if(IsClientValid(j))
+					{
+						SetListenOverride(i, j, Listen_Yes);
+						SetListenOverride(j, i, Listen_Yes);
+					}
 				}
 			}
 		}	
@@ -181,7 +187,7 @@ public void TTT_OnRoundStart(int is, int t, int d)
 
 stock bool IsClientValid(int client)
 {
-	if (0 < client <= MaxClients && IsClientInGame(client))
+	if (0 < client <= MaxClients && IsClientInGame(client) && IsClientConnected(client))
 		return true;
 	return false;
 }
